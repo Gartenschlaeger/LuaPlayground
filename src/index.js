@@ -1,18 +1,18 @@
 const express = require('express')
 const cors = require('cors')
-const { spawn, exec } = require('node:child_process')
 const child_process = require('child_process')
 const bodyParser = require('body-parser')
-const { stdout } = require('node:process')
-
-const api = express();
+const path = require('path')
 
 const PORT = 80;
 
-api.use(cors())
-api.use(bodyParser.text());
+const app = express();
 
-api.post('/exec', (req, res) => {
+app.use(cors())
+app.use(bodyParser.text());
+app.use(express.static(path.join(__dirname, '../web')))
+
+app.post('/exec', (req, res) => {
     console.log('req', req.body)
 
     let tmp_stdout = '';
@@ -39,6 +39,6 @@ api.post('/exec', (req, res) => {
     })
 });
 
-api.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`API is listening on Port ${PORT}.`)
 })

@@ -3,5 +3,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "files.exclude": {
         "node_modules": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
     }
 }

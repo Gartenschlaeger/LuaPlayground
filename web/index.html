@@ -7,7 +7,7 @@
         <title>LUA Playground</title>
         <link
             rel="stylesheet"
-            href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+            href="//cdn.kaisnet.de/bootstrap/5.0.2/css/bootstrap.min.css"
         />
         <style>
             body {
@@ -43,7 +43,7 @@
                 ev.preventDefault()
                 const code = (codeBox.value || '').trim()
                 if (code.length > 0) {
-                    fetch('http://localhost/exec', {
+                    fetch('/exec', {
                         method: 'POST',
                         mode: 'cors',
                         body: code,
