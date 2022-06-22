@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LUA Playground</title>
+        <link
+            rel="stylesheet"
+            href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+        />
+        <style>
+            body {
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="mb-2">
+                <textarea
+                    name="code"
+                    id="code"
+                    rows="10"
+                    class="form-control"
+                ></textarea>
+            </div>
+            <div
+                id="result"
+                class="mb-2 px-3 py-2 text-muted border rounded d-none"
+            ></div>
+            <div class="text-end">
+                <button type="button" id="exec" class="btn btn-primary">
+                    Execute
+                </button>
+            </div>
+        </div>
+
+        <script>
+            const execBtn = document.getElementById('exec')
+            const codeBox = document.getElementById('code')
+            execBtn.addEventListener('click', function (ev) {
+                ev.preventDefault()
+                const code = (codeBox.value || '').trim()
+                if (code.length > 0) {
+                    fetch('http://localhost/exec', {
+                        method: 'POST',
+                        mode: 'cors',
+                        body: code,
+                    })
+                        .then(function (response) {
+                            return response.json()
+                        })
+                        .then(function (response) {
+                            console.log(response)
+                            const resultBox = document.getElementById('result')
+                            resultBox.textContent = response.o
+                            resultBox.classList.remove('d-none')
+                            if (response.c !== 0) {
+                                resultBox.classList.add('border-danger')
+                            } else {
+                                resultBox.classList.remove('border-danger')
+                            }
+                        })
+                        .catch(function (reason) {})
+                }
+            })
+        </script>
+    </body>
+</html>
