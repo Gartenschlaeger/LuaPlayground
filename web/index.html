@@ -5,10 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>LUA Playground</title>
-        <link
-            rel="stylesheet"
-            href="//cdn.kaisnet.de/bootstrap/5.0.2/css/bootstrap.min.css"
-        />
+        <link rel="stylesheet" href="//cdn.kaisnet.de/bootstrap/5.0.2/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//cdn.kaisnet.de/codemirror/5.65.6/codemirror.min.css" />
         <style>
             body {
                 margin-top: 50px;
@@ -17,31 +15,31 @@
     </head>
     <body>
         <div class="container">
-            <div class="mb-2">
-                <textarea
-                    name="code"
-                    id="code"
-                    rows="10"
-                    class="form-control"
-                ></textarea>
+            <div class="mb-5">
+                <div class="mb-3">
+                    <div class="border rounded">
+                        <textarea name="code" id="code" rows="10"></textarea>
+                    </div>
+                </div>
+                <div id="result" class="mb-3 px-3 py-2 text-muted border rounded d-none"></div>
             </div>
-            <div
-                id="result"
-                class="mb-2 px-3 py-2 text-muted border rounded d-none"
-            ></div>
+
             <div class="text-end">
-                <button type="button" id="exec" class="btn btn-primary">
-                    Execute
-                </button>
+                <button type="button" id="exec" class="btn btn-primary">Execute</button>
             </div>
         </div>
 
+        <script src="//cdn.kaisnet.de/codemirror/5.65.6/codemirror.min.js"></script>
+        <script src="//cdn.kaisnet.de/codemirror/5.65.6/mode/lua/lua.js"></script>
         <script>
+            var editor = CodeMirror.fromTextArea(code, {
+                lineNumbers: true,
+            })
+
             const execBtn = document.getElementById('exec')
-            const codeBox = document.getElementById('code')
             execBtn.addEventListener('click', function (ev) {
                 ev.preventDefault()
-                const code = (codeBox.value || '').trim()
+                const code = editor.getValue().trim()
                 if (code.length > 0) {
                     fetch('/exec', {
                         method: 'POST',
