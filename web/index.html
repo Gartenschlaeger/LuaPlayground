@@ -36,6 +36,13 @@
                 lineNumbers: true,
             })
 
+            function addResultLine(resultBox, text) {
+                const pElement = document.createElement('p')
+                pElement.classList.add('m-0')
+                pElement.textContent = text
+                resultBox.append(pElement)
+            }
+
             const execBtn = document.getElementById('exec')
             execBtn.addEventListener('click', function (ev) {
                 ev.preventDefault()
@@ -50,15 +57,24 @@
                             return response.json()
                         })
                         .then(function (response) {
-                            console.log(response)
                             const resultBox = document.getElementById('result')
-                            resultBox.textContent = response.o
-                            resultBox.classList.remove('d-none')
+                            resultBox.innerHTML = ''
+                            if (response.o) {
+                                const lines = response.o.split('\n')
+                                for (i = 0; i < lines.length; i++) {
+                                    addResultLine(resultBox, lines[i])
+                                }
+                            } else {
+                                addResultLine(resultBox, 'No output')
+                            }
+
                             if (response.c !== 0) {
                                 resultBox.classList.add('border-danger')
                             } else {
                                 resultBox.classList.remove('border-danger')
                             }
+
+                            resultBox.classList.remove('d-none')
                         })
                         .catch(function (reason) {})
                 }

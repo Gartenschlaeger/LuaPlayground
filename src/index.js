@@ -13,7 +13,7 @@ app.use(bodyParser.text());
 app.use(express.static(path.join(__dirname, '../web')))
 
 app.post('/exec', (req, res) => {
-    console.log('req', req.body)
+    //console.log('req', req.body)
 
     let tmp_stdout = '';
     let tmp_stderr = '';
@@ -29,9 +29,8 @@ app.post('/exec', (req, res) => {
     })
 
     proc.on('close', (code) => {
-        console.log('CLOSE', code)
-        console.log('OUTPUT: "' + tmp_stdout + '"')
-
+        //console.log('CLOSE', code)
+        //console.log('OUTPUT: "' + tmp_stdout + '"')
         res.json({
             c: code,
             o: code === 0 ? tmp_stdout : tmp_stderr
