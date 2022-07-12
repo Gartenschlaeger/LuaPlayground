@@ -7,7 +7,12 @@ router.post('/exec', (req: Request, res: Response) => {
     let tmp_stdout = ''
     let tmp_stderr = ''
 
-    const proc = child_process.spawn('lua', ['-e', req.body])
+    let source: string = req.body
+
+    // fix: do not fail if source starts with - character
+    source = 'print()\n' + source
+
+    const proc = child_process.spawn('lua', ['-e', source])
     proc.stdout.on('data', (d) => {
         tmp_stdout += d.toString()
     })
