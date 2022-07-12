@@ -10,7 +10,7 @@ router.post('/exec', (req: Request, res: Response) => {
     let source: string = req.body
 
     // fix: do not fail if source starts with - character
-    source = 'local a=1;' + source
+    source = 'os=nil;' + source
 
     const proc = child_process.spawn('lua', ['-e', source])
     proc.stdout.on('data', (d) => {
