@@ -10,7 +10,7 @@ router.post('/exec', (req: Request, res: Response) => {
     let source: string = req.body
 
     // fix: do not fail if source starts with - character
-    source = 'os=nil;' + source
+    source = 'os=nil;function debugTable(table) for k,v in pairs(table) do print(k, "=", v) end end;' + source
 
     const proc = child_process.spawn('lua', ['-e', source])
     proc.stdout.on('data', (d) => {
