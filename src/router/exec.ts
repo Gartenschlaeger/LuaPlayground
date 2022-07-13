@@ -22,7 +22,7 @@ router.post('/exec', (req: Request, res: Response) => {
     proc.on('close', (code) => {
         res.json({
             c: code,
-            o: code === 0 ? tmp_stdout : tmp_stderr,
+            o: code === 0 ? tmp_stdout : tmp_stderr
         })
     })
 })
