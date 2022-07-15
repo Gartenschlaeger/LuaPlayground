@@ -12,13 +12,18 @@ router.post('/exec', (req: Request, res: Response) => {
     // fix: do not fail if source starts with - character
     source = 'os=nil;function debugTable(table) for k,v in pairs(table) do print(k, "=", v) end end;' + source
 
-    const proc = child_process.spawn('lua', ['-e', source])
+    const proc = child_process.spawn('lua', ['-e', source], {
+        timeout: 5000 // miliseconds timeout
+    })
+
     proc.stdout.on('data', (d) => {
         tmp_stdout += d.toString()
     })
+
     proc.stderr.on('data', (d) => {
         tmp_stderr += d.toString()
     })
+
     proc.on('close', (code) => {
         res.json({
             c: code,
